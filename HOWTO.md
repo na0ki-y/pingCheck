@@ -1,0 +1,1 @@
+zsh ./demon_checer/checker.sh
