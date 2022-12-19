@@ -6,6 +6,9 @@ name = "pypi"
 [packages]
 streamlit = "*"
 numpy = "*"
+google-cloud = "*"
+google-cloud-storage = "*"
+google-cloud-firestore = "*"
 
 [dev-packages]
 
