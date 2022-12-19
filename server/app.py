@@ -1,11 +1,15 @@
 import streamlit as st
+import json
+#from google.cloud import firestore
 def main():
     st.title("pingChecker")
 
     st.write("secrets_sample-a:", st.secrets["secrets_sample"]["a"])
     st.write("secrets_sample-b:", st.secrets["secrets_sample"]["b"])
-    st.write("secrets_sample-b:", st.secrets["secrets_sample"]["c"])
 
+    key_dict = json.loads(st.secrets["firebase_key"]) 
+    #creds = firestore.Client.Credentials.from_service_account_info(key_dict)
+    #db = firestore.Client(credentials=creds, project="streamlit-reddit")
 
     st.markdown("firebaseの秘密鍵はJSONファイルなのでTOMLに変換して同様にlocal/deployにペーストすれば良い[Streamlit ❤️ Firestore (continued)](https://blog.streamlit.io/streamlit-firestore-continued/)")
     st.markdown("# sesstion state counter")
