@@ -9,6 +9,7 @@ numpy = "*"
 google-cloud = "*"
 google-cloud-storage = "*"
 google-cloud-firestore = "*"
+firebase-admin = "*"
 
 [dev-packages]
 
