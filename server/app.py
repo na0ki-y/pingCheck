@@ -3,6 +3,7 @@ import json
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
+from make_icon import make_icon
 def main():
     st.title("pingChecker")
 
@@ -23,6 +24,10 @@ def main():
     except:
         print('error')
     ##############################read
+    #icons=make_icon("Alice")
+    #st.image(icons[1])
+
+    #st.image(cv2.imread("./icon/Alice_icon_in.png"))
 
 
 
