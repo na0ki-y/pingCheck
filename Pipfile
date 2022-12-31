@@ -10,6 +10,7 @@ google-cloud = "*"
 google-cloud-storage = "*"
 google-cloud-firestore = "*"
 firebase-admin = "*"
+opencv-python = "*"
 
 [dev-packages]
 

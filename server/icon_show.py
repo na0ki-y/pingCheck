@@ -10,6 +10,7 @@ def main():
     st.title("pingChecker")
 
     if "flags" not in st.session_state:
+        print("reload")
         st.session_state.icons={}
         st.flags=[]
         for u_name in ["Alice","Bob","Carol","Dave","Ellen","Pat","Zoe"]:
@@ -17,11 +18,12 @@ def main():
             st.flags.append(1)
     #########
     l_flag = st.checkbox('left off')
-    st.write(l_flag)
     if l_flag:
         for i,(u_name,icons) in enumerate(st.session_state["icons"].items()):
             if i%3==0:
                 st.flags[i]=0
+    st.write(l_flag)#,st.flags)
+
     col1, col2, col3 = st.columns(3)
 
     with col1:
