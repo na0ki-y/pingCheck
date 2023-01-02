@@ -11,6 +11,7 @@ google-cloud-storage = "*"
 google-cloud-firestore = "*"
 firebase-admin = "*"
 opencv-python-headless = "*"
+pandas = "*"
 
 [dev-packages]
 

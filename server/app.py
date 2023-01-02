@@ -1,6 +1,7 @@
 import streamlit as st
 import json
 import datetime
+import pandas as pd
 from google.cloud import firestore 
 from google.oauth2 import service_account
 from make_icon import make_icon
@@ -67,14 +68,16 @@ def get_flag(i):
     if len(st.session_state.latest["result"])<=i:
         return False #範囲外ならFalseとする
     return st.session_state.latest["result"][i]
-
+@st.experimental_memo
+def convert_df(df):
+   return df.to_csv(index=False).encode('utf-8')
 def main():
     st.title("pingChecker")
     db=init_firebase()
     init_session(db)
     load_user_db(db)
     
-    tab1, tab2 = st.tabs(["Check", "User Regster"])
+    tab1, tab2 ,tab3= st.tabs(["CheckNow","CheckLog" ,"User Regster"])
     with tab1:
         check_db(db)
         col1, col2, col3 = st.columns(3)
@@ -98,6 +101,12 @@ def main():
         #######
 
     with tab2:
+        st.write("Sample")
+        db=pd.DataFrame({"Allice":[True,True,False],"Bob":[False,False,False],"Zoe":[False,True,False]},index=["11:00","11:10","11:20"])
+        #st.dataframe(db.style.highlight_max())
+        st.dataframe(db)
+        st.download_button("Press to Download",convert_df(db),"pingCheck.csv","text/csv",key='download-csv')
+    with tab3:
         st.session_state.input_u_name = st.text_input('UserName', default_u_name)
         st.session_state.input_mac_addr = st.text_input('MacAddress ', default_mac_addr)
         st.button('Register',on_click=register(db))
