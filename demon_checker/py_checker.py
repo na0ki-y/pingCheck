@@ -71,7 +71,7 @@ def main():
     while True:
         print(i)
         one_check_and_post(db)
-        time.sleep(600)#n秒ごとに実行
+        time.sleep(10)#n秒ごとに実行
         i+=1
     
 if __name__ == '__main__':
