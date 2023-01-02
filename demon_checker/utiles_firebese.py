@@ -24,7 +24,6 @@ def firebase_post(db,collection_name="user",post_field={'mac': "aa.aa.aa.rr",'na
         print('error_post')
 def firebase_read(db,collection_name="user",flag_print=False):
     posts_ref = db.collection(collection_name)
-
     read_result={"user":[],"mac":[]}
     for doc in posts_ref.stream():
         read_result["user"].append(doc.to_dict()["name"])

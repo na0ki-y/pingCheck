@@ -1,5 +1,6 @@
 import streamlit as st
 import json
+import datetime
 from google.cloud import firestore 
 from google.oauth2 import service_account
 from make_icon import make_icon
@@ -10,6 +11,7 @@ def load_user_db(db):
     for doc in docs:    
         #st.markdown(f'{doc.id} => {doc.to_dict()}')
         u_name_list.append(doc.to_dict()["name"])
+    print(u_name_list)
     return u_name_list
 
 default_u_name="Allice"
@@ -21,10 +23,12 @@ def init_session(db):
         st.session_state.input_mac_addr=default_mac_addr
         u_name_list=load_user_db(db)
         st.session_state.icons={}
-        st.flags=[]
+        st.session_state.flags=[]
+        st.session_state.latest={"time":0,'user_list':[None]*len(st.session_state.flags),'result': [False]*len(st.session_state.flags)}
+        print(len(u_name_list))
         for u_name in u_name_list:#["Alice","Bob","Carol","Dave","Ellen","Pat","Zoe"]:
             st.session_state.icons[u_name]=make_icon(u_name)
-            st.flags.append(1)
+            st.session_state.flags.append(0)
 
 def init_firebase():
     key_dict = json.loads(st.secrets["firebase_key"]) 
@@ -54,9 +58,17 @@ def register(db):
             st.session_state.input_mac_addr=default_mac_addr
         except:
             print('post error')
-    ##############################read
-def check_db(db):
-    pass
+def check_db(db,collection_name="log_db",flag_print=False):
+    posts_ref = db.collection(collection_name)
+    #########search latest
+    for doc in posts_ref.stream():   
+        if len(st.session_state.flags)==len(doc.to_dict()["result"]) and st.session_state.latest["time"]<doc.to_dict()["time"]:#人数が等しい中で最新
+            st.session_state.latest=doc.to_dict()
+        if flag_print:
+            st.write(f'{doc.id} => {doc.to_dict()}')
+    ########flag change
+    st.session_state.flags=st.session_state.latest["result"]
+    print(st.session_state.flags,st.session_state.latest["result"])
 
 
 def main():
@@ -67,30 +79,25 @@ def main():
     
     tab1, tab2 = st.tabs(["Check", "User Regster"])
     with tab1:
-        
-        l_flag = st.checkbox('left off')
-        if l_flag:
-            for i,(u_name,icons) in enumerate(st.session_state["icons"].items()):
-                if i%3==0:
-                    st.flags[i]=0
-        st.write(l_flag)#,st.flags)
-
+        check_db(db)
         col1, col2, col3 = st.columns(3)
 
         with col1:
             for i,(u_name,icons) in enumerate(st.session_state["icons"].items()):
                 if i%3==0:
-                    st.image(icons[st.flags[i]])
+                    st.image(icons[st.session_state.flags[i]])
             
         with col2:
             for i,(u_name,icons) in enumerate(st.session_state["icons"].items()):
                 if i%3==1:
-                    st.image(icons[st.flags[i]])
+                    st.image(icons[st.session_state.flags[i]])
 
         with col3:
             for i,(u_name,icons) in enumerate(st.session_state["icons"].items()):
                 if i%3==2:
-                    st.image(icons[st.flags[i]])
+                    st.image(icons[st.session_state.flags[i]])
+        st.button('Update',on_click=register(db))
+        st.write("最終更新　{}".format(datetime.datetime.fromtimestamp(st.session_state.latest["time"])))
         #######
 
     with tab2:
