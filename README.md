@@ -9,7 +9,7 @@
 
 # DEMO
 ## CheckNow
-![screenshot](/readme_image/sec_check_now.png)
+![screenshot](/readme_images/sec_check_now.png)
 
 ## CheckLog
 
