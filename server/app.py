@@ -11,9 +11,15 @@ def load_user_db(db):
     for doc in docs:    
         #st.markdown(f'{doc.id} => {doc.to_dict()}')
         u_name_list.append(doc.to_dict()["name"])
-    print(u_name_list)
     return u_name_list
-
+def check_db(db,collection_name="log_db",flag_print=False):
+    posts_ref = db.collection(collection_name)
+    #########search latest
+    for doc in posts_ref.stream():   
+        if  st.session_state.latest["time"]<doc.to_dict()["time"]:#人数が等しい中で最新
+            st.session_state.latest=doc.to_dict()
+        if flag_print:
+            st.write(f'{doc.id} => {doc.to_dict()}')
 default_u_name="Allice"
 default_mac_addr="XX:XX:XX:XX:XX:XX"
 
@@ -21,14 +27,11 @@ def init_session(db):
     if "flags" not in st.session_state:
         st.session_state.input_u_name=default_u_name
         st.session_state.input_mac_addr=default_mac_addr
-        u_name_list=load_user_db(db)
         st.session_state.icons={}
-        st.session_state.flags=[]
-        st.session_state.latest={"time":0,'user_list':[None]*len(st.session_state.flags),'result': [False]*len(st.session_state.flags)}
-        print(len(u_name_list))
-        for u_name in u_name_list:#["Alice","Bob","Carol","Dave","Ellen","Pat","Zoe"]:
+        st.session_state.latest={"time":0,'user_list':[None],'result': [False]}
+        check_db(db)
+        for u_name in st.session_state.latest["user_list"]:#["Alice","Bob","Carol","Dave","Ellen","Pat","Zoe"]:
             st.session_state.icons[u_name]=make_icon(u_name)
-            st.session_state.flags.append(0)
 
 def init_firebase():
     key_dict = json.loads(st.secrets["firebase_key"]) 
@@ -58,18 +61,12 @@ def register(db):
             st.session_state.input_mac_addr=default_mac_addr
         except:
             print('post error')
-def check_db(db,collection_name="log_db",flag_print=False):
-    posts_ref = db.collection(collection_name)
-    #########search latest
-    for doc in posts_ref.stream():   
-        if len(st.session_state.flags)==len(doc.to_dict()["result"]) and st.session_state.latest["time"]<doc.to_dict()["time"]:#人数が等しい中で最新
-            st.session_state.latest=doc.to_dict()
-        if flag_print:
-            st.write(f'{doc.id} => {doc.to_dict()}')
-    ########flag change
-    st.session_state.flags=st.session_state.latest["result"]
-    print(st.session_state.flags,st.session_state.latest["result"])
 
+
+def get_flag(i):
+    if len(st.session_state.latest["result"])<=i:
+        return False #範囲外ならFalseとする
+    return st.session_state.latest["result"][i]
 
 def main():
     st.title("pingChecker")
@@ -85,17 +82,17 @@ def main():
         with col1:
             for i,(u_name,icons) in enumerate(st.session_state["icons"].items()):
                 if i%3==0:
-                    st.image(icons[st.session_state.flags[i]])
+                    st.image(icons[get_flag(i)])
             
         with col2:
             for i,(u_name,icons) in enumerate(st.session_state["icons"].items()):
                 if i%3==1:
-                    st.image(icons[st.session_state.flags[i]])
+                    st.image(icons[get_flag(i)])
 
         with col3:
             for i,(u_name,icons) in enumerate(st.session_state["icons"].items()):
                 if i%3==2:
-                    st.image(icons[st.session_state.flags[i]])
+                    st.image(icons[get_flag(i)])
         st.button('Update',on_click=register(db))
         st.write("最終更新　{}".format(datetime.datetime.fromtimestamp(st.session_state.latest["time"])))
         #######
