@@ -9,20 +9,19 @@
 
 # DEMO
 ## CheckNow
-![screenshot](/readme_image/readme_images.png)
+![screenshot](/readme_image/sec_check_now.png)
 
 ## CheckLog
 
 ## Register
 
 
-# Installation :balloon:
-WEB表示は`python(stremlit)`で実装されています。
-以下の通り、`pipenv`で環境構築後、ローカル環境で実行できます。
-
 # Features
 ネットワーク内で動かすチェッカーがデバイスをチェック（`ping/arp`)することで自動で、ユーザが在室しているか判定します。その結果を、`firebese`を通してWEBブラウザでどかからでも確認することができます。
 
+# Installation :balloon:
+WEB表示は`python(stremlit)`で実装されています。
+以下の通り、`pipenv`で環境構築後、ローカル環境で実行できます。
 機能は、現在の表示とログの確認、ユーザ登録です。
 
 ```bash
