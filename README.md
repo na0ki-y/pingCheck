@@ -25,7 +25,7 @@ Cherckerは`python`で`shell`を呼び出すことで実装されています。
 WEB表示は`python(stremlit)`で実装されています。ローカルまたは、`streamlit cloud`で実行します。
 
 ## Cehcker local $\times$ WEBserver local
-`python setup.py only_demon`でCehcker とWEBをローカルで実行します。
+`python setup.py both_demon_and_web`でCehcker とWEBをローカルで実行します。
 ```bash
 git clone git@github.com:na0ki-y/pingChecker.git
 python setup.py both_demon_and_web
