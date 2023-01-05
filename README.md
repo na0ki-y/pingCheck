@@ -20,10 +20,39 @@
 ネットワーク内で動かすチェッカーがデバイスをチェック（`ping/arp`)することで自動で、ユーザが在室しているか判定します。その結果を、`firebese`を通してWEBブラウザでどかからでも確認することができます。
 
 # Installation :balloon:
-WEB表示は`python(stremlit)`で実装されています。
-以下の通り、`pipenv`で環境構築後、ローカル環境で実行できます。
-機能は、現在の表示とログの確認、ユーザ登録です。
+環境設定には`pipenv`を使用します。
+Cherckerは`python`で`shell`を呼び出すことで実装されています。ローカルで実行します。
+WEB表示は`python(stremlit)`で実装されています。ローカルまたは、`streamlit cloud`で実行します。
 
+## Cehcker local $\times$ WEBserver local
+`python setup.py only_demon`でCehcker とWEBをローカルで実行します。
+```bash
+git clone git@github.com:na0ki-y/pingChecker.git
+python setup.py only_demon
+```
+
+
+## Cehcker local $\times$ WEBserver local
+`python setup.py only_demon`でCehckerをローカルで実行します。
+WEBserverの`Streamlit Cloud`の設定は、次を参考に実行します。
+[doc:streamlit-cloud:get-started](https://docs.streamlit.io/streamlit-cloud/get-started)
+[doc:streamlit-cloud:secrets-management](https://docs.streamlit.io/streamlit-cloud/get-started/deploy-an-app/connect-to-data-sources/secrets-management)
+
+
+```bash
+git clone git@github.com:na0ki-y/pingChecker.git
+python setup.py both_demon_and_web
+```
+
+## 実装
+## Checker
+`ping`による在室のチェックは`python`で実装されています。
+以下の通り実行することで、ローカル環境で実行できます。
+```bash
+cd cd ./demon_checker
+python py_checker.py
+```
+## WEBserber
 ```bash
 git clone git@github.com:na0ki-y/pingChecker.git
 cd pingChecker
@@ -31,14 +60,5 @@ pipenv install
 cd ./server
 streamlit run app.py
 ```
-
-`ping`による在室のチェックは`python`で実装されています。
-以下の通り実行することで、ローカル環境で実行できます。
-```bash
-cd cd ./demon_checker
-python py_checker.py
-```
-
-
 # Author
 na_0ki
