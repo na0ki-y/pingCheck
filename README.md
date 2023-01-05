@@ -28,20 +28,22 @@ WEB表示は`python(stremlit)`で実装されています。ローカルまた�
 `python setup.py only_demon`でCehcker とWEBをローカルで実行します。
 ```bash
 git clone git@github.com:na0ki-y/pingChecker.git
-python setup.py only_demon
+python setup.py both_demon_and_web
 ```
 
 
-## Cehcker local $\times$ WEBserver local
+## Cehcker local $\times$ WEBserver Cloud
 `python setup.py only_demon`でCehckerをローカルで実行します。
-WEBserverの`Streamlit Cloud`の設定は、次を参考に実行します。
+WEBserverの`Streamlit Cloud`の設定は、次を参考に実行します。Main fileは`server/app.py`とし、secretsの設定が必要です。
 [doc:streamlit-cloud:get-started](https://docs.streamlit.io/streamlit-cloud/get-started)
-[doc:streamlit-cloud:secrets-management](https://docs.streamlit.io/streamlit-cloud/get-started/deploy-an-app/connect-to-data-sources/secrets-management)
+[doc:streamlit-cloud:secrets-management](https://docs.streamlit.io/streamlit-cloud/get-started/deploy-an-app/connect-to-data-sources/secrets-management)\
+
+[Go to app](https://na0ki-y-pingcheck-serverapp-k6hc0q.streamlit.app)は Cehcker local $\times$ WEBserver Cloud　で実行されています。
 
 
 ```bash
 git clone git@github.com:na0ki-y/pingChecker.git
-python setup.py both_demon_and_web
+python setup.py only_demon
 ```
 
 ## 実装
