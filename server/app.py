@@ -5,7 +5,7 @@ import pandas as pd
 from google.cloud import firestore 
 from google.oauth2 import service_account
 from make_icon import make_icon
-
+# from streamlit_js_eval import get_geolocation
 def load_user_db(db):
     docs = db.collection(u'user').stream()
     u_name_list=[]
@@ -110,7 +110,9 @@ def main():
         st.session_state.input_u_name = st.text_input('UserName', default_u_name)
         st.session_state.input_mac_addr = st.text_input('MacAddress ', default_mac_addr)
         st.button('Register',on_click=register(db))
-    
+    # if st.checkbox("Check my location"):
+    #     loc = get_geolocation()
+    #     st.write(f"Your coordinates are {loc}")
 
 
 if __name__ == '__main__':
